@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="popup.css" />
+    <title>Pomodoro Timer</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="../pomodoro.png" alt="Pomodoro Logo" />
+        <h1>Pomodoro Timer</h1>
+      </header>
+      <section class="time">
+        <h3>00:00</h3>
+      </section>
+      <section class="actions">
+        <button id="actions__button--start">Start</button>
+        <button id="actions__button--add">Add Task</button>
+        <button id="actions__button--clear">Clear Tasks</button>
+      </section>
+
+      <section class="tasks"></section>
+    </main>
+
+    <script defer src="popup.js"></script>
+  </body>
+</html>

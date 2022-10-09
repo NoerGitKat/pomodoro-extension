@@ -4,6 +4,7 @@ const startBtn = document.querySelector("#actions__button--start")
 const resetBtn = document.querySelector("#actions__button--reset")
 const addBtn = document.querySelector("#actions__button--add")
 const clearBtn = document.querySelector("#actions__button--clear")
+const timer = document.querySelector("#timer")
 const tasksElement = document.querySelector(".tasks")
 
 let tasks = []
@@ -12,6 +13,23 @@ chrome.storage.sync.get(["tasks"], function getStorageContent(content) {
   tasks = content.tasks ? content.tasks : []
   renderTasks()
 })
+
+function updateTimer() {
+  chrome.storage.local.get(["timer"], function setTimer(result) {
+    const POMODORO_TIME = 25
+    const TIMER_MINUTES = `${
+      POMODORO_TIME - Math.ceil(result.timer / 60)
+    }`.padStart(2, "0")
+    let TIMER_SECONDS = "00"
+    if (result.timer % 60 !== 0) {
+      TIMER_SECONDS = `${60 - (result.timer % 60)}`.padStart(2, "0")
+    }
+
+    timer.textContent = `${TIMER_MINUTES}:${TIMER_SECONDS}`
+  })
+}
+
+setInterval(updateTimer, 1000)
 
 addBtn.addEventListener("click", addTask)
 startBtn.addEventListener("click", toggleTimer)

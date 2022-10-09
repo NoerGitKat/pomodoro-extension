@@ -1,6 +1,7 @@
 "use strict"
 
 const startBtn = document.querySelector("#actions__button--start")
+const resetBtn = document.querySelector("#actions__button--reset")
 const addBtn = document.querySelector("#actions__button--add")
 const clearBtn = document.querySelector("#actions__button--clear")
 const tasksElement = document.querySelector(".tasks")
@@ -13,7 +14,34 @@ chrome.storage.sync.get(["tasks"], function getStorageContent(content) {
 })
 
 addBtn.addEventListener("click", addTask)
+startBtn.addEventListener("click", toggleTimer)
 clearBtn.addEventListener("click", clearTasks)
+resetBtn.addEventListener("click", resetTimer)
+
+function toggleTimer() {
+  chrome.storage.local.get(["isRunning"], function setTimer(result) {
+    chrome.storage.local.set(
+      {
+        isRunning: !result.isRunning,
+      },
+      function changeBtnText() {
+        startBtn.textContent = `${result.isRunning ? "Start" : "Pause"} Timer`
+      }
+    )
+  })
+}
+
+function resetTimer() {
+  chrome.storage.local.set(
+    {
+      isRunning: false,
+      timer: 0,
+    },
+    function resetStartBtnText() {
+      startBtn.textContent = "Start Timer"
+    }
+  )
+}
 
 function renderTask(taskNumber) {
   const taskRow = document.createElement("article")
